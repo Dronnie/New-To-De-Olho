@@ -7,7 +7,8 @@
 <div class="login-container">
   <!-- Lado esquerdo com imagem -->
   <div class="image-side">
-    <iframe src="https://lottie.host/embed/a656d99c-dfd0-4cd8-958a-7ee72093a8bb/gJap3Wn6iE.lottie" style="border: none; height: 700px; width: 700px; margin-top: 100px;"></iframe>
+    <iframe src="https://lottie.host/embed/a656d99c-dfd0-4cd8-958a-7ee72093a8bb/gJap3Wn6iE.lottie"
+      style="border: none; height: 700px; width: 700px; margin-top: 100px;"></iframe>
   </div>
 
   <!-- Lado direito com formulário -->
@@ -15,10 +16,10 @@
     <h2>Criar Conta</h2>
     <form (ngSubmit)="fazerCadastro()">
       <label for="nome">Nome</label>
-      <input type="nome" id="nome" [(ngModel)]="nome" name="nome" required placeholder="Maria da Silva" />
+      <input type="text" id="nome" [(ngModel)]="nome" name="nome" required placeholder="Maria da Silva" />
 
       <label for="telefone">Telefone</label>
-      <input type="telefone" id="telefone" [(ngModel)]="telefone" name="telefone" required placeholder="11 9 9999-9999" />
+      <input type="text" id="telefone" [(ngModel)]="telefone" name="telefone" required placeholder="11 9 9999-9999" />
 
       <label for="email">Email</label>
       <input type="email" id="email" [(ngModel)]="email" name="email" required placeholder="seuemail@exemplo.com" />
@@ -27,9 +28,27 @@
       <input type="password" id="password" [(ngModel)]="senha" name="senha" required placeholder="********" />
 
       <label for="confirmPassword">Confirmar Senha</label>
-      <input type="password" id="confirmPassword" [(ngModel)]="confirmarSenha" name="confirmarSenha" required placeholder="********" />
+      <input type="password" id="confirmPassword" [(ngModel)]="confirmarSenha" name="confirmarSenha" required
+        placeholder="********" />
+
+      <!-- Checkboxes -->
+      <div class="remember-me">
+        <input type="checkbox" id="aceitaEmail" [(ngModel)]="aceitaEmail" name="aceitaEmail" />
+        <label for="aceitaEmail">Aceito receber emails com atualizações dos deputados</label>
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" id="aceitaSms" [(ngModel)]="aceitaSms" name="aceitaSms" />
+        <label for="aceitaSms">Aceito receber SMS com atualizações</label>
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" id="aceitaTermos" [(ngModel)]="aceitaTermos" name="aceitaTermos" required />
+        <label for="aceitaTermos">Concordo com os <a href="/termos" target="_blank">Termos de Uso</a></label>
+      </div>
 
       <button type="submit">Cadastrar</button>
+
       <p *ngIf="mensagemErro" style="color: red;">{{ mensagemErro }}</p>
       <p *ngIf="mensagemSucesso" style="color: green;">{{ mensagemSucesso }}</p>
     </form>

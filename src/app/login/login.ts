@@ -32,20 +32,33 @@ export class Login {
       this.router.navigate(['/dashboard']);
     }
   }
-  
+
   async esqueciSenha() {
-  if (!this.email) {
-    this.mensagemErro = 'Informe seu e-mail para redefinir a senha.';
-    return;
+    if (!this.email) {
+      this.mensagemErro = 'Informe seu e-mail para redefinir a senha.';
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(this.email);
+
+    if (error) {
+      this.mensagemErro = error.message;
+    } else {
+      this.mensagemErro = 'Link de redefinição de senha enviado para seu e-mail.';
+    }
   }
 
-  const { error } = await supabase.auth.resetPasswordForEmail(this.email);
+  async loginComGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'http://localhost:4200/dashboard',
+      },
+    });
 
-  if (error) {
-    this.mensagemErro = error.message;
-  } else {
-    this.mensagemErro = 'Link de redefinição de senha enviado para seu e-mail.';
+    if (error) {
+      this.mensagemErro = 'Erro ao autenticar com Google.';
+      console.error('Erro login Google:', error.message);
+    }
   }
-}
-
-}
+  }

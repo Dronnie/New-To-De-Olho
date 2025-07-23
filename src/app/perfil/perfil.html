@@ -3,8 +3,8 @@
     <a href="#"><img src="https://i.ibb.co/LDwrBFk4/logo.png" style="height: 50px;" alt="logo" /></a>
 
     <div class="auth-buttons">
+      <a class="btn secondary" href="/dashboard">Dashboard</a>
       <a class="btn secondary" href="/favoritos">Favoritos</a>
-      <a class="btn secondary" href="/perfil">Perfil</a>
 
       <div class="notificacao-container" style="position: relative; display: inline-block;">
         <button class="btn secondary btn-notificacao">
@@ -20,6 +20,9 @@
   </div>
 </header>
 
+<div class="titulo">
+<h1>Perfil</h1>
+</div>
 
 <div class="perfil-container" *ngIf="usuarioLogado() else naoLogado">
 

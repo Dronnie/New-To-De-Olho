@@ -19,6 +19,10 @@ export class Register {
   confirmarSenha = '';
   mensagemErro = '';
   mensagemSucesso = '';
+  aceitaEmail = false;
+  aceitaSms = false;
+  aceitaTermos = false;
+
 
   constructor(private router: Router) {}
 
@@ -27,6 +31,12 @@ export class Register {
       this.mensagemErro = 'As senhas não coincidem.';
       return;
     }
+
+    if (!this.aceitaTermos) {
+    this.mensagemErro = 'Você deve aceitar os Termos de Uso para continuar.';
+    return;
+    }
+
 
     const { error, data } = await supabase.auth.signUp({
       email: this.email,

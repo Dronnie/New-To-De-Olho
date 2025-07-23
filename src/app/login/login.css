@@ -100,6 +100,43 @@ button:hover {
   cursor: pointer;
 }
 
+.social-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.google-btn {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.google-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.insta-btn {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: white;
+}
+
+.insta-btn:hover {
+  opacity: 0.9;
+}
+
+
+
 /* Responsividade */
 @media (max-width: 768px) {
   .login-container {

@@ -58,6 +58,14 @@ header {
   user-select: none;
 }
 
+
+/* Título */
+.titulo {
+  padding: 1%;
+  color: #003366;
+  margin-left: 20%;
+}
+
 /* Botões auth */
 .auth-buttons .btn {
   padding: 0.5rem 1rem;
