@@ -39,6 +39,26 @@ export class PoliticosService {
     );
   }
 
+listarSenadores() {
+  return this.http.get<any>('/senado-api/dadosabertos/senador/lista/atual.json', {
+    headers: { Accept: 'application/json' }
+  });
+}
+
+listarRemuneracaoSenador(codigoParlamentar: string) {
+  const url = `/senado-api/dadosabertos/senador/${codigoParlamentar}/remuneracao`;
+  return this.http.get<any>(url);
+}
+
+
+listarDespesasSenador(codigoParlamentar: string) {
+  const url = `https://legis.senado.leg.br/dadosabertos/senador/${codigoParlamentar}/gastos`;
+  return this.http.get<any>(url);
+}
+
+
+
+
   listarDespesasCartaoDeputado(deputadoId: number, mesInicio: string, mesFim: string): Observable<DespesaCartao[]> {
     const url = `/api/deputados/${deputadoId}/despesas-cartao?mesExtratoInicio=${mesInicio}&mesExtratoFim=${mesFim}`;
     return this.http.get<any>(url).pipe(

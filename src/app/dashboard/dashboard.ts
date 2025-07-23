@@ -45,7 +45,6 @@ interface Projeto {
   styleUrls: ['./dashboard.css'],
   providers: [PoliticosService]
 })
-
 export class Dashboard implements OnInit, AfterViewInit {
   estadoSelecionado = signal<string>('');
   cargoSelecionado = signal<string>('');
@@ -92,8 +91,8 @@ export class Dashboard implements OnInit, AfterViewInit {
 
   carregarPoliticos(): void {
     this.politicosService.listarDeputadosFederais().subscribe({
-      next: (dados: any[]) => {
-        const adaptados: Politico[] = dados.map(d => ({
+      next: (dadosDeputados: any[]) => {
+        const deputadosAdaptados: Politico[] = dadosDeputados.map(d => ({
           id: d.id,
           nome: d.nome,
           cargo: 'deputado',
@@ -101,10 +100,28 @@ export class Dashboard implements OnInit, AfterViewInit {
           estado: d.siglaUf,
           foto: d.urlFoto
         }));
-        this.politicos.set(adaptados);
+
+        this.politicosService.listarSenadores().subscribe({
+          next: (res: any) => {
+            const senadoresRaw = res.ListaParlamentarEmExercicio.Parlamentares.Parlamentar;
+            const senadoresAdaptados: Politico[] = senadoresRaw.map((s: any) => ({
+              id: s.IdentificacaoParlamentar.CodigoParlamentar,
+              nome: s.IdentificacaoParlamentar.NomeParlamentar,
+              cargo: 'senador',
+              estado: s.IdentificacaoParlamentar.UfParlamentar,
+              foto: s.IdentificacaoParlamentar.UrlFotoParlamentar
+            }));
+
+            this.politicos.set([...deputadosAdaptados, ...senadoresAdaptados]);
+          },
+          error: err => {
+            console.error('Erro ao carregar senadores:', err);
+            this.politicos.set(deputadosAdaptados); // fallback
+          }
+        });
       },
-      error: (err: any) => {
-        console.error('Erro ao carregar políticos:', err);
+      error: err => {
+        console.error('Erro ao carregar deputados:', err);
       }
     });
   }
@@ -128,47 +145,89 @@ export class Dashboard implements OnInit, AfterViewInit {
     });
   }
 
-  selecionarPolitico(p: Politico & { id?: number }): void {
-    this.politicoSelecionado.set(p);
+selecionarPolitico(p: Politico & { id?: number }): void {
+  this.politicoSelecionado.set(p);
 
-    if (p.cargo === 'deputado' && p.id) {
-      const mesInicio = '01/2025';
-      const mesFim = '06/2025';
-
-      this.politicosService.listarDespesasCartaoDeputado(p.id, mesInicio, mesFim).subscribe({
-        next: (despesas: DespesaCartao[]) => {
-          const totalDespesas: number = despesas.reduce(
-            (acc: number, d: DespesaCartao) => acc + parseFloat(d.valorTransacao.replace(',', '.')), 0
-          );
-          p.despesasCartao = totalDespesas;
-
-          this.politicoSelecionado.set({ ...p });
-          this.atualizarDadosDetalhadosMock();
-
-          setTimeout(() => {
-            this.inicializarGrafico();
-            this.atualizarGrafico();
-          }, 0);
-        },
-        error: (err: any) => {
-          console.error('Erro ao carregar despesas do cartão:', err);
-          this.atualizarDadosDetalhadosMock();
-
-          setTimeout(() => {
-            this.inicializarGrafico();
-            this.atualizarGrafico();
-          }, 0);
-        }
-      });
-    } else {
-      this.atualizarDadosDetalhadosMock();
-
-      setTimeout(() => {
-        this.inicializarGrafico();
-        this.atualizarGrafico();
-      }, 0);
-    }
+  if (p.id === undefined) {
+    this.atualizarDadosDetalhadosMock();
+    setTimeout(() => {
+      this.inicializarGrafico();
+      this.atualizarGrafico();
+    }, 0);
+    return;
   }
+
+  if (p.cargo === 'deputado') {
+    const mesInicio = '01/2025';
+    const mesFim = '06/2025';
+
+    // id como number para deputado
+    this.politicosService.listarDespesasCartaoDeputado(p.id, mesInicio, mesFim).subscribe({
+      next: (despesas: DespesaCartao[]) => {
+        const totalDespesas = despesas.reduce(
+          (acc, d) => acc + parseFloat(d.valorTransacao.replace(',', '.')),
+          0
+        );
+        p.despesasCartao = totalDespesas;
+
+        this.politicoSelecionado.set({ ...p });
+        this.atualizarDadosDetalhadosMock();
+
+        setTimeout(() => {
+          this.inicializarGrafico();
+          this.atualizarGrafico();
+        }, 0);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar despesas do cartão:', err);
+        this.atualizarDadosDetalhadosMock();
+        setTimeout(() => {
+          this.inicializarGrafico();
+          this.atualizarGrafico();
+        }, 0);
+      }
+    });
+  } else if (p.cargo === 'senador') {
+    // id como string para senador
+    const idStr = String(p.id);
+    this.politicosService.listarRemuneracaoSenador(idStr).subscribe({
+      next: (remuneracao: any) => {
+        this.dadosDetalhados.set({
+          remuneracoesDTO: remuneracao.remuneracoes || [],
+          despesasDistribuidas: remuneracao.despesas || { categorias: [], valores: [] },
+          emendasParlamentares: remuneracao.emendas || 'R$ 0,00',
+          beneficiosMensais: remuneracao.beneficios || 'R$ 0,00'
+        });
+
+        setTimeout(() => {
+          this.inicializarGrafico();
+          this.atualizarGrafico();
+        }, 0);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar remuneração do senador:', err);
+        this.atualizarDadosDetalhadosMock();
+        setTimeout(() => {
+          this.inicializarGrafico();
+          this.atualizarGrafico();
+        }, 0);
+      }
+    });
+  } else {
+    this.atualizarDadosDetalhadosMock();
+    setTimeout(() => {
+      this.inicializarGrafico();
+      this.atualizarGrafico();
+    }, 0);
+  }
+}
+
+
+
+
+
+
+
 
   atualizarDadosDetalhadosMock() {
     this.dadosDetalhados.set({

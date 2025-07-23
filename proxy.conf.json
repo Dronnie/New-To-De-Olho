@@ -5,7 +5,14 @@
     "changeOrigin": true,
     "pathRewrite": {
       "^/api": ""
-    },
-    "logLevel": "debug"
+    }
+  },
+  "/senado-api": {
+    "target": "https://legis.senado.leg.br",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/senado-api": ""
+    }
   }
 }
