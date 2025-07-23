@@ -32,13 +32,19 @@
     </div>
   </section>
 
-  <!-- Pesquisa -->
+<!-- Pesquisa -->
 <div class="searchbar">
-  <input type="text" class="search_input" placeholder="Buscar políticos, temas, estados..." />
-  <div class="search_icon">
+  <input
+    type="text"
+    class="search_input"
+    placeholder="Buscar políticos, temas, estados..."
+    (keydown.enter)="irParaLogin()"
+  />
+  <div class="search_icon" (click)="irParaLogin()" style="cursor: pointer;">
     🔍
   </div>
 </div>
+
 
 
     <!-- Seção Info -->
@@ -197,6 +203,24 @@
         <h4>Diários Oficiais</h4>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="apoie-site">
+  <div class="container apoio-content">
+    <h3 class="section-title">Apoie este projeto</h3>
+    <p>
+      O <strong>To De Olho</strong> é um projeto independente que precisa da sua ajuda para continuar promovendo transparência e cidadania.
+    </p>
+    <p>Faça um PIX de qualquer valor para:</p>
+
+
+    <div class="pix-container">
+      <img src="https://i.ibb.co/35Z3Q1sy/Whats-App-Image-2025-07-23-at-11-32-44-AM.jpg" style="height: 200px; margin-bottom: 20px;">
+      <p class="pix-chave"><strong>Chave PIX:</strong> 00020126330014br.gov.bcb.pix0111077033485705204000053<br>039865802BR5922Mariano Da Cruz Santos6009Sao Paulo62290525REC6880F21E9D7E1209473631630499D2</p>
+    </div>
+
+    <p class="obrigado">Obrigado por acreditar na democracia e na tecnologia!</p>
   </div>
 </section>
 

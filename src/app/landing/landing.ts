@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -15,6 +16,8 @@ export class Landing {
   mostrarOpcoes = true;
 
   @ViewChild('chatBody') chatBody!: ElementRef<HTMLDivElement>;
+
+  constructor(private router: Router) {}
 
   ajustarFonte(valor: number) {
     this.tamanhoFonteBase += valor * 10;
@@ -45,5 +48,9 @@ export class Landing {
         el.scrollTop = el.scrollHeight;
       }
     }, 100);
+  }
+
+  irParaLogin() {
+    this.router.navigate(['/login']);
   }
 }

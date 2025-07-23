@@ -521,6 +521,41 @@ footer .container {
   opacity: 0.8;
 }
 
+/* Apoia-se */
+
+.apoie-site {
+  background-color: #f9f9f9;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.apoio-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pix-container {
+  margin: 2rem 0;
+}
+
+.pix-qr {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.pix-chave {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.obrigado {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #666;
+}
+
+
 /* modal de chat */
 
 .chat-button {
