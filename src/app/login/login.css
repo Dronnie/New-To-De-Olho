@@ -1,8 +1,7 @@
 .Logo-Login {
-    position: fixed;
-    z-index: 1;
-    margin-top: 5px;
-
+  position: fixed;
+  z-index: 1;
+  margin-top: 5px;
 }
 
 .login-container {
@@ -99,4 +98,62 @@ button:hover {
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .image-side {
+    height: 200px; /* altura menor para a imagem no topo */
+    flex: none;
+  }
+
+  .image-side img {
+    height: 100%;
+    object-position: center;
+  }
+
+  .form-side {
+    padding: 20px 30px;
+    flex: none;
+  }
+
+  .form-side h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-side {
+    padding: 15px 20px;
+  }
+
+  .form-side h2 {
+    font-size: 24px;
+  }
+
+  label, .remember-me, .signup-link {
+    font-size: 13px;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px;
+  }
 }

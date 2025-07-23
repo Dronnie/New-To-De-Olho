@@ -417,3 +417,83 @@ button:focus-visible {
 .projeto-item:last-child {
   border-bottom: none;
 }
+
+
+/* Responsividade header e container */
+@media (max-width: 1024px) {
+  .container.header-content {
+    padding: 0 1rem;
+  }
+
+  .auth-buttons .btn {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    margin-left: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container.header-content {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    width: 100%;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  /* Notificação se ajustar */
+  .notificacao-container {
+    margin-left: 0;
+  }
+
+  /* Ajuste para o logo ficar centralizado na linha de cima */
+  header > .container.header-content > a {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Filtrar barra empilha */
+  .filter-bar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ajusta cards para 1 coluna para facilitar leitura */
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .filter-bar input[type="text"],
+  .filter-bar select {
+    min-width: 100%;
+    flex-grow: unset;
+  }
+
+  .auth-buttons {
+    flex-wrap: wrap;
+  }
+
+  .auth-buttons .btn {
+    flex: 1 1 45%;
+    margin: 0.3rem 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  /* Modal ocupa quase toda a largura */
+  .modal {
+    width: 95%;
+    padding: 1rem 1.5rem;
+  }
+
+  .foto-detalhe {
+    width: 120px;
+    height: 120px;
+  }
+}
