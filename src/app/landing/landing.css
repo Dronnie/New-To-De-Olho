@@ -16,6 +16,30 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* acessibilidade */
+
+.font-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.font-controls button {
+  padding: 4px 10px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.font-controls button:hover {
+  background-color: #ddd;
+}
+
+/* fim */
+
 body {
   background-color: #ffffff;
   color: var(--dark);
@@ -496,6 +520,111 @@ footer .container {
 .footer-links a:hover {
   opacity: 0.8;
 }
+
+/* modal de chat */
+
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #2463eb;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 58px;
+  height: 58px;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background 0.3s ease;
+}
+
+.chat-button:hover {
+  background-color: #1d4ed8;
+}
+
+.chat-modal {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  max-height: 380px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  background-color: #2463eb;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.fechar-chat {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.chat-body {
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.chat-mensagem {
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+.chat-mensagem.bot {
+  background-color: #f1f5ff;
+  align-self: flex-start;
+}
+
+.chat-mensagem.user {
+  background-color: #dcfce7;
+  align-self: flex-end;
+}
+
+.chat-options {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.chat-options button {
+  background-color: #f1f5f9;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.3s;
+}
+.chat-options button:hover {
+  background-color: #e2e8f0;
+}
+
+
 
 /* Responsividade principal */
 @media (max-width: 768px) {

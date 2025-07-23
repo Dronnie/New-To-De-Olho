@@ -6,6 +6,11 @@
       <a class="btn secondary" href="/login">Entrar</a>
       <a class="btn primary" href="/register">Cadastrar</a>
     </div>
+    <div class="font-controls">
+    <button (click)="ajustarFonte(1)">A+</button>
+    <button (click)="ajustarFonte(-1)">A-</button>
+    </div>
+
   </div>
 </header>
 
@@ -204,6 +209,33 @@
     </div>
   </section>
 </main>
+
+<!-- Botão flutuante de chat -->
+<button class="chat-button" (click)="abrirChat = !abrirChat">
+  💬
+</button>
+
+<!-- Modal de chat -->
+<div class="chat-modal" *ngIf="abrirChat">
+  <div class="chat-header">
+    <span>Chat de Suporte</span>
+    <button (click)="abrirChat = false" class="fechar-chat">✖</button>
+  </div>
+  <div class="chat-body">
+    <div class="chat-mensagem bot">Olá! Como posso te ajudar hoje?</div>
+    <div class="chat-mensagem user">O que é o To De Olho?</div>
+    <div class="chat-mensagem bot">É uma plataforma para acompanhar a atuação de políticos brasileiros.</div>
+    <div class="chat-mensagem user">Preciso me cadastrar para usar?</div>
+    <div class="chat-mensagem bot">Sim! O cadastro permite favoritar políticos e receber atualizações.</div>
+  </div>
+  <!-- Opções interativas -->
+  <div class="chat-options">
+    <button (click)="responder('como')">Como funciona a plataforma?</button>
+    <button (click)="responder('pagar')">Preciso pagar alguma coisa?</button>
+  </div>
+
+</div>
+
 
 <footer>
   <div class="container">
