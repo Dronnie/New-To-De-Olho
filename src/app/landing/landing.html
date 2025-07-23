@@ -5,6 +5,7 @@
     <div class="auth-buttons">
       <a class="btn secondary" href="/login">Entrar</a>
       <a class="btn primary" href="/register">Cadastrar</a>
+      <a class="btn primary" href="/sobre">Sobre</a>
     </div>
     <div class="font-controls">
     <button (click)="ajustarFonte(1)">A+</button>
@@ -221,20 +222,27 @@
     <span>Chat de Suporte</span>
     <button (click)="abrirChat = false" class="fechar-chat">✖</button>
   </div>
-  <div class="chat-body">
+
+  <div class="chat-body" #chatBody>
     <div class="chat-mensagem bot">Olá! Como posso te ajudar hoje?</div>
     <div class="chat-mensagem user">O que é o To De Olho?</div>
     <div class="chat-mensagem bot">É uma plataforma para acompanhar a atuação de políticos brasileiros.</div>
     <div class="chat-mensagem user">Preciso me cadastrar para usar?</div>
     <div class="chat-mensagem bot">Sim! O cadastro permite favoritar políticos e receber atualizações.</div>
+
+    <div *ngFor="let msg of mensagensExtras" class="chat-mensagem" [ngClass]="msg.tipo">
+      {{ msg.texto }}
+    </div>
   </div>
+
   <!-- Opções interativas -->
-  <div class="chat-options">
+  <div class="chat-options" *ngIf="mostrarOpcoes">
     <button (click)="responder('como')">Como funciona a plataforma?</button>
     <button (click)="responder('pagar')">Preciso pagar alguma coisa?</button>
   </div>
-
 </div>
+
+
 
 
 <footer>

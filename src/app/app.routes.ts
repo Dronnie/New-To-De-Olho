@@ -4,7 +4,8 @@ import { Login } from './login/login';
 import { Register } from './register/register';
 import { PoliticoDetalhes } from './politico-detalhes/politico-detalhes';
 import { Dashboard } from './dashboard/dashboard';
-import { Perfil } from './perfil/perfil'
+import { Perfil } from './perfil/perfil';
+import { Sobre } from './sobre/sobre';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,10 @@ export const routes: Routes = [
     {
         path: 'perfil',
         component: Perfil
+    },
+    {
+        path: 'sobre',
+        component: Sobre
     },
     {
         
