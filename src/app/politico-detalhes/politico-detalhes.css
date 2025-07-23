@@ -1,0 +1,73 @@
+.card-detalhado {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  max-height: 80vh;         /* Limita altura para caber na tela */
+  margin: 2rem auto;
+  color: #404c66;
+  overflow-y: auto;         /* Scroll vertical se precisar */
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Botão fechar (adicionar na estrutura HTML) */
+.card-detalhado .fechar {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+}
+.card-detalhado .fechar:hover {
+  color: #000;
+}
+
+.card-detalhado h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.card-detalhado h3 {
+  margin-top: 2rem;
+  color: #2463eb;
+  text-align: center;
+}
+
+.card-detalhado ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.card-detalhado li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #404c66;
+}
+
+/* Canvas do gráfico para ocupar largura total */
+.card-detalhado canvas {
+  display: block;
+  width: 100% !important;
+  max-height: 300px;
+  height: 300px !important;
+  margin: 1.5rem 0;
+}
+
+/* Se quiser, pode colocar a foto do político no topo */
+.card-detalhado .foto-detalhe {
+  display: block;
+  margin: 0 auto 1rem auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2463eb;
+}

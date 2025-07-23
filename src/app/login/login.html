@@ -1,0 +1,53 @@
+<div class="Logo-Login">
+  <a href="#">
+    <img src="https://i.ibb.co/LDwrBFk4/logo.png" style="height: 50px;" alt="logo" />
+  </a>
+</div>
+
+<div class="login-container">
+  <div class="image-side">
+    <iframe src="https://lottie.host/embed/6de49e8a-4840-48ee-9c68-4a66738b29b5/t1AIVSyGQG.lottie"
+      style="border: none; height: 700px; width: 700px; margin-top: 100px;"></iframe>
+  </div>
+
+  <div class="form-side">
+    <h2>Entrar</h2>
+    <form (ngSubmit)="fazerLogin()">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        placeholder="seuemail@exemplo.com"
+      />
+
+      <label for="password">Senha</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="senha"
+        name="senha"
+        required
+        placeholder="********"
+      />
+
+      <div class="remember-me">
+        <input type="checkbox" id="remember" />
+        <label for="remember">Lembre-se de mim</label>
+      </div>
+
+      <!-- Botão de esqueci a senha -->
+      <div class="forgot-password">
+        <button type="button" (click)="esqueciSenha()" class="link-button">Esqueci a senha</button>
+      </div>
+
+      <button type="submit">Entrar</button>
+
+      <p *ngIf="mensagemErro" style="color: red;">{{ mensagemErro }}</p>
+    </form>
+
+    <p class="signup-link">Não tem uma conta? <a href="/register">Cadastre-se</a></p>
+  </div>
+</div>

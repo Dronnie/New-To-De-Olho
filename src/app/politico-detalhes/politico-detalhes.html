@@ -1,0 +1,17 @@
+<div class="card-detalhado">
+  <h2>{{ dados.servidor.pessoa.nome }}</h2>
+  <p><strong>Função:</strong> {{ dados.servidor.funcao.descricaoFuncaoCargo }}</p>
+  <p><strong>Órgão:</strong> {{ dados.servidor.orgaoServidorLotacao.nome }}</p>
+
+  <h3>Remuneração ({{ dados.remuneracoesDTO[0].mesAno }})</h3>
+  <ul>
+    <li><strong>Bruto:</strong> {{ dados.remuneracoesDTO[0].remuneracaoBasicaBruta }}</li>
+    <li><strong>Gratificação:</strong> {{ dados.remuneracoesDTO[0].gratificacaoNatalina }}</li>
+    <li><strong>Outros:</strong> {{ dados.remuneracoesDTO[0].outrasRemuneracoesEventuais }}</li>
+    <li><strong>Imposto Retido:</strong> {{ dados.remuneracoesDTO[0].impostoRetidoNaFonte }}</li>
+  </ul>
+</div>
+  <div class="grafico-despesas">
+    <h3>Distribuição de Despesas</h3>
+    <canvas #graficoDespesas></canvas>
+  </div>

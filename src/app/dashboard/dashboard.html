@@ -1,0 +1,182 @@
+<header>
+  <div class="container header-content">
+    <a href="#"><img src="https://i.ibb.co/LDwrBFk4/logo.png" style="height: 50px;" alt="logo" /></a>
+
+    <div class="auth-buttons">
+      <a class="btn secondary" href="/favoritos">Favoritos</a>
+      <a class="btn secondary" href="/perfil">Perfil</a>
+
+      <div class="notificacao-container" style="position: relative; display: inline-block;">
+        <button class="btn secondary btn-notificacao" (click)="abrirModalNotificacoes()">
+          <!-- seu SVG aqui -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span *ngIf="notificacoesNaoLidas() > 0" class="badge">{{ notificacoesNaoLidas() }}</span>
+        </button>
+
+        <!-- Modal de notificações posicionado abaixo -->
+        <div 
+          class="modal-notificacoes" 
+          *ngIf="modalNotificacoesAberto()" 
+          (click)="$event.stopPropagation()"
+        >
+          <button class="fechar" (click)="fecharModalNotificacoes()">✖</button>
+          <h4>Notificações</h4>
+          <ul>
+            <li>Atualização de emendas parlamentares.</li>
+            <li>Novas despesas do deputado X.</li>
+            <li>Orçamento atualizado para o setor Y.</li>
+            <!-- Aqui pode puxar suas notícias dinamicamente -->
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+
+
+<div class="dashboard-container">
+
+  <!-- Filtros de busca -->
+  <div class="filter-bar">
+    <input
+      type="text"
+      placeholder="Buscar por nome..."
+      (input)="nomeBusca.set($any($event.target).value)"
+      style="flex-grow: 1; padding: 0.5rem; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem;"
+    />
+
+    <select (change)="estadoSelecionado.set($any($event.target).value)">
+      <option value="">Todos os Estados</option>
+      <option *ngFor="let est of estados" [value]="est">{{ est }}</option>
+    </select>
+
+    <select (change)="cargoSelecionado.set($any($event.target).value)">
+      <option value="">Todos os Cargos</option>
+      <option value="vereador">Vereador</option>
+      <option value="deputado">Deputado</option>
+      <option value="senador">Senador</option>
+    </select>
+  </div>
+
+  <!-- Listagem agrupada de políticos -->
+  <div *ngFor="let estado of getObjectKeys(agruparPorEstadoCargo())" class="estado-section">
+    <h2 class="estado-titulo">{{ estado }}</h2>
+
+    <div *ngFor="let cargo of getObjectKeys(agruparPorEstadoCargo()[estado])">
+      <h3 class="cargo-titulo">{{ cargo | titlecase }}</h3>
+
+      <div class="cards-grid">
+        <div
+          class="card"
+          *ngFor="let politico of agruparPorEstadoCargo()[estado][cargo]"
+          (click)="selecionarPolitico(politico)"
+          style="cursor: pointer;"
+        >
+          <img [src]="politico.foto" [alt]="politico.nome" />
+          <h3>{{ politico.nome }}</h3>
+          <p>{{ politico.cargo | titlecase }} - {{ politico.estado }}</p>
+          <button
+            class="favoritar-btn"
+            (click)="toggleFavorito(politico.nome); $event.stopPropagation()"
+          >
+            {{ isFavorito(politico.nome) ? '★ Favorito' : '☆ Favoritar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de projetos -->
+<section class="projetos-section">
+  <h2>Projetos Legislativos</h2>
+  
+  <div *ngIf="projetos().length === 0">
+    <p>Nenhum projeto encontrado.</p>
+  </div>
+
+  <ul class="lista-projetos" *ngIf="projetos().length > 0">
+    <li *ngFor="let proj of projetos()" class="projeto-item">
+      <strong>{{ proj.siglaTipo }} {{ proj.numero }}/{{ proj.ano }}</strong> - 
+      {{ proj.titulo || proj.ementa }}
+    </li>
+  </ul>
+</section>
+
+  <!-- Modal detalhes político -->
+  <div class="overlay" *ngIf="politicoSelecionado()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <button class="fechar" (click)="fecharDetalhes()">✖</button>
+
+      <img [src]="politicoSelecionado()?.foto" alt="Foto" class="foto-detalhe" />
+      <h2>{{ politicoSelecionado()?.nome }}</h2>
+      <p><strong>Cargo:</strong> {{ politicoSelecionado()?.cargo | titlecase }}</p>
+      <p><strong>Estado:</strong> {{ politicoSelecionado()?.estado }}</p>
+
+      <!-- Controle de filtro de período -->
+      <select [(ngModel)]="filtroPeriodoValue" (change)="aplicarFiltroPeriodo()">
+        <option value="30dias">Últimos 30 dias</option>
+        <option value="personalizado">Personalizado</option>
+      </select>
+
+      <div *ngIf="filtroPeriodoValue === 'personalizado'" class="datas-personalizadas">
+        <input type="date" [(ngModel)]="dataInicio" />
+        <input type="date" [(ngModel)]="dataFim" />
+        <button (click)="aplicarFiltroPeriodo()">Aplicar</button>
+      </div>
+
+      <!-- Resumo financeiro (mockado) -->
+      <div class="remuneracao-card">
+        <h3>Remuneração - {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.mesAno || '—' }}</h3>
+        <ul>
+          <li><strong>Bruto:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.remuneracaoBasicaBruta || 'R$ —' }}</li>
+          <li><strong>Gratificação:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.gratificacaoNatalina || 'R$ —' }}</li>
+          <li><strong>Outros:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.outrasRemuneracoesEventuais || 'R$ —' }}</li>
+          <li><strong>Descontos:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.impostoRetidoNaFonte || 'R$ —' }}</li>
+        </ul>
+      </div>
+
+      <!-- Gráfico de despesas -->
+      <div class="grafico-despesas">
+        <h3>Distribuição de Despesas</h3>
+        <canvas #graficoDespesasCanvas id="graficoDespesas"></canvas>
+      </div>
+
+      <!-- Informações adicionais -->
+      <div class="resumo-extra">
+        <p><strong>Emendas parlamentares:</strong> {{ dadosDetalhados()?.emendasParlamentares || 'R$ —' }}</p>
+        <p><strong>Benefícios mensais:</strong> {{ dadosDetalhados()?.beneficiosMensais || 'R$ —' }}</p>
+      </div>
+
+      <!-- Notificações -->
+<div class="notificacoes-switches">
+  <h3>Receber notificações sobre:</h3>
+
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="notificarDespesas" />
+    <span class="slider"></span>
+    <span class="switch-label">Despesas gerais</span>
+  </label>
+
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="notificarCartao" />
+    <span class="slider"></span>
+    <span class="switch-label">Gastos com cartão</span>
+  </label>
+
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="notificarEmendas" />
+    <span class="slider"></span>
+    <span class="switch-label">Emendas parlamentares</span>
+  </label>
+</div>
+
+    </div>
+  </div>
+</div>
+
