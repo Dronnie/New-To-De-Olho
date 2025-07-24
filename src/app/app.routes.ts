@@ -7,6 +7,8 @@ import { Dashboard } from './dashboard/dashboard';
 import { Perfil } from './perfil/perfil';
 import { Sobre } from './sobre/sobre';
 import { Favoritos } from './favoritos/favoritos';
+import { TermosDeUso } from './termos-de-uso/termos-de-uso';
+
 
 export const routes: Routes = [
     {
@@ -36,6 +38,10 @@ export const routes: Routes = [
     {
         path: 'favoritos',
         component: Favoritos
+    },
+        {
+        path: 'termos-de-uso',
+        component: TermosDeUso
     },
     {
         

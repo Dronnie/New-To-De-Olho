@@ -63,6 +63,14 @@ iniciarChat() {
     }, 100);
   }
 
+  lerTexto() {
+  const texto = document.body.innerText; // ou selecione um elemento específico
+  const utterance = new SpeechSynthesisUtterance(texto);
+  utterance.lang = 'pt-BR'; // voz em português do Brasil
+  speechSynthesis.speak(utterance);
+}
+
+
   ajustarFonte(valor: number) {
     this.tamanhoFonteBase += valor * 10;
     document.documentElement.style.fontSize = `${this.tamanhoFonteBase}%`;
