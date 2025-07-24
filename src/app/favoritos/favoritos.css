@@ -1,0 +1,227 @@
+/* Container principal */
+.favoritos-container {
+  max-width: 900px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header fixo (igual ao da dashboard) */
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.container.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notificacao-container {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-notificacao {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  transition: color 0.25s ease;
+}
+
+.btn-notificacao:hover,
+.btn-notificacao:focus {
+  color: #1e90ff; /* azul vibrante */
+  outline: none;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #007bff; /* azul padrão */
+  color: white;
+  border-radius: 50%;
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 16px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+  user-select: none;
+}
+
+
+/* Título */
+.titulo {
+  padding: 1%;
+  color: #003366;
+  margin-left: 20%;
+}
+
+/* Botões auth */
+.auth-buttons .btn {
+  padding: 0.5rem 1rem;
+  margin-left: 0.7rem;
+  border: none;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  user-select: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.auth-buttons .btn.secondary {
+  background-color: #e6f0ff; /* azul claro */
+  color: #003366; /* azul escuro */
+}
+
+.auth-buttons .btn.secondary:hover,
+.auth-buttons .btn.secondary:focus {
+  background-color: #1e90ff; /* azul vibrante */
+  color: white;
+  outline: none;
+}
+
+
+/* Modal notificações */
+.modal-notificacoes {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  width: 320px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 1.5rem 1.2rem;
+  z-index: 1200;
+  font-size: 0.9rem;
+  color: #222;
+  user-select: none;
+  animation: fadeInDown 0.2s ease forwards;
+}
+
+/* Título */
+.favoritos-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Cards dos políticos */
+.politico-card {
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.politico-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.politico-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 16px;
+  border: 2px solid #eee;
+}
+
+.politico-card h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: #222;
+}
+
+.politico-card p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .politico-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .politico-card img {
+    margin: 0 0 12px;
+  }
+}
+
+/* Botão de remover */
+.btn-remove {
+  margin-top: 4px;
+  width: 120px; /* largura fixa */
+  height: 32px; /* altura fixa */
+  padding: 0;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  align-self: start; /* alinha o botão à esquerda do container */
+  text-align: center;
+  line-height: 32px; /* verticalmente centralizado */
+  white-space: nowrap; /* impede quebra de linha */
+}
+
+.btn-remove:hover {
+  background-color: #e74c3c;
+  transform: translateY(-1px); /* leve elevação ao hover */
+}
+
+
+/* Animação de entrada suave */
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Separar área de texto e botão */
+.politico-info {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">to-de-olho</string>
+    <string name="title_activity_main">to-de-olho</string>
+    <string name="package_name">todeolho.com.app</string>
+    <string name="custom_url_scheme">todeolho.com.app</string>
+</resources>

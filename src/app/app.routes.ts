@@ -6,6 +6,7 @@ import { PoliticoDetalhes } from './politico-detalhes/politico-detalhes';
 import { Dashboard } from './dashboard/dashboard';
 import { Perfil } from './perfil/perfil';
 import { Sobre } from './sobre/sobre';
+import { Favoritos } from './favoritos/favoritos';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,10 @@ export const routes: Routes = [
     {
         path: 'sobre',
         component: Sobre
+    },
+    {
+        path: 'favoritos',
+        component: Favoritos
     },
     {
         

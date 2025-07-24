@@ -8,7 +8,6 @@
 
       <div class="notificacao-container" style="position: relative; display: inline-block;">
         <button class="btn secondary btn-notificacao" (click)="abrirModalNotificacoes()">
-          <!-- seu SVG aqui -->
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -16,7 +15,6 @@
           <span *ngIf="notificacoesNaoLidas() > 0" class="badge">{{ notificacoesNaoLidas() }}</span>
         </button>
 
-        <!-- Modal de notificações posicionado abaixo -->
         <div 
           class="modal-notificacoes" 
           *ngIf="modalNotificacoesAberto()" 
@@ -28,25 +26,21 @@
             <li>Atualização de emendas parlamentares.</li>
             <li>Novas despesas do deputado X.</li>
             <li>Orçamento atualizado para o setor Y.</li>
-            <!-- Aqui pode puxar suas notícias dinamicamente -->
           </ul>
         </div>
       </div>
-
     </div>
   </div>
 </header>
 
 <div class="titulo">
-<h1>Dashboard</h1>
+  <h1>Dashboard</h1>
 </div>
-
-
 
 <div class="dashboard-container">
 
   <!-- Filtros de busca -->
-  <div class="filter-bar">
+  <div class="filter-bar" *ngIf="!carregando">
     <input
       type="text"
       placeholder="Buscar por nome..."
@@ -67,119 +61,127 @@
     </select>
   </div>
 
-  <!-- Listagem agrupada de políticos -->
-  <div *ngFor="let estado of getObjectKeys(agruparPorEstadoCargo())" class="estado-section">
-    <h2 class="estado-titulo">{{ estado }}</h2>
+  <!-- Loading -->
+  <div *ngIf="carregando" class="loading-container" style="text-align: center; margin-top: 3rem;">
+    <iframe
+      src="https://lottie.host/embed/28a15988-2909-4c9a-b27e-b67c550ac3a1/9jUuiG6DxR.lottie"
+      style="border: none; width: 150px; height: 150px; margin-bottom: 1rem;"
+      aria-label="Loading animation"
+    ></iframe>
+    <p>Carregando dados dos políticos...</p>
+  </div>
 
-    <div *ngFor="let cargo of getObjectKeys(agruparPorEstadoCargo()[estado])">
-      <h3 class="cargo-titulo">{{ cargo | titlecase }}</h3>
+  <!-- Conteúdo principal - só aparece após carregar -->
+  <div *ngIf="!carregando">
 
-      <div class="cards-grid">
-        <div
-          class="card"
-          *ngFor="let politico of agruparPorEstadoCargo()[estado][cargo]"
-          (click)="selecionarPolitico(politico)"
-          style="cursor: pointer;"
-        >
-          <img [src]="politico.foto" [alt]="politico.nome" />
-          <h3>{{ politico.nome }}</h3>
-          <p>{{ politico.cargo | titlecase }} - {{ politico.estado }}</p>
-          <button
-            class="favoritar-btn"
-            (click)="toggleFavorito(politico.nome); $event.stopPropagation()"
+    <!-- Listagem agrupada de políticos -->
+    <div *ngFor="let estado of getObjectKeys(agruparPorEstadoCargo())" class="estado-section">
+      <h2 class="estado-titulo">{{ estado }}</h2>
+
+      <div *ngFor="let cargo of getObjectKeys(agruparPorEstadoCargo()[estado])">
+        <h3 class="cargo-titulo">{{ cargo | titlecase }}</h3>
+
+        <div class="cards-grid">
+          <div
+            class="card"
+            *ngFor="let politico of agruparPorEstadoCargo()[estado][cargo]"
+            (click)="selecionarPolitico(politico)"
+            style="cursor: pointer;"
           >
-            {{ isFavorito(politico.nome) ? '★ Favorito' : '☆ Favoritar' }}
-          </button>
+            <img [src]="politico.foto" [alt]="politico.nome" />
+            <h3>{{ politico.nome }}</h3>
+            <p>{{ politico.cargo | titlecase }} - {{ politico.estado }}</p>
+            <button
+              class="favoritar-btn"
+              (click)="toggleFavorito(politico.nome); $event.stopPropagation()"
+            >
+              {{ isFavorito(politico.nome) ? '★ Favorito' : '☆ Favoritar' }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Seção de projetos -->
-<section class="projetos-section">
-  <h2>Projetos Legislativos</h2>
-  
-  <div *ngIf="projetos().length === 0">
-    <p>Nenhum projeto encontrado.</p>
-  </div>
-
-  <ul class="lista-projetos" *ngIf="projetos().length > 0">
-    <li *ngFor="let proj of projetos()" class="projeto-item">
-      <strong>{{ proj.siglaTipo }} {{ proj.numero }}/{{ proj.ano }}</strong> - 
-      {{ proj.titulo || proj.ementa }}
-    </li>
-  </ul>
-</section>
-
-  <!-- Modal detalhes político -->
-  <div class="overlay" *ngIf="politicoSelecionado()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <button class="fechar" (click)="fecharDetalhes()">✖</button>
-
-      <img [src]="politicoSelecionado()?.foto" alt="Foto" class="foto-detalhe" />
-      <h2>{{ politicoSelecionado()?.nome }}</h2>
-      <p><strong>Cargo:</strong> {{ politicoSelecionado()?.cargo | titlecase }}</p>
-      <p><strong>Estado:</strong> {{ politicoSelecionado()?.estado }}</p>
-
-      <!-- Controle de filtro de período -->
-      <select [(ngModel)]="filtroPeriodoValue" (change)="aplicarFiltroPeriodo()">
-        <option value="30dias">Últimos 30 dias</option>
-        <option value="personalizado">Personalizado</option>
-      </select>
-
-      <div *ngIf="filtroPeriodoValue === 'personalizado'" class="datas-personalizadas">
-        <input type="date" [(ngModel)]="dataInicio" />
-        <input type="date" [(ngModel)]="dataFim" />
-        <button (click)="aplicarFiltroPeriodo()">Aplicar</button>
+    <!-- Seção de projetos -->
+    <section class="projetos-section">
+      <h2>Projetos Legislativos</h2>
+      
+      <div *ngIf="projetos().length === 0">
+        <p>Nenhum projeto encontrado.</p>
       </div>
 
-      <!-- Resumo financeiro (mockado) -->
-      <div class="remuneracao-card">
-        <h3>Remuneração - {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.mesAno || '—' }}</h3>
-        <ul>
-          <li><strong>Bruto:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.remuneracaoBasicaBruta || 'R$ —' }}</li>
-          <li><strong>Gratificação:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.gratificacaoNatalina || 'R$ —' }}</li>
-          <li><strong>Outros:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.outrasRemuneracoesEventuais || 'R$ —' }}</li>
-          <li><strong>Descontos:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.impostoRetidoNaFonte || 'R$ —' }}</li>
-        </ul>
+      <ul class="lista-projetos" *ngIf="projetos().length > 0">
+        <li *ngFor="let proj of projetos()" class="projeto-item">
+          <strong>{{ proj.siglaTipo }} {{ proj.numero }}/{{ proj.ano }}</strong> - 
+          {{ proj.titulo || proj.ementa }}
+        </li>
+      </ul>
+    </section>
+
+    <!-- Modal detalhes político -->
+    <div class="overlay" *ngIf="politicoSelecionado()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <button class="fechar" (click)="fecharDetalhes()">✖</button>
+
+        <img [src]="politicoSelecionado()?.foto" alt="Foto" class="foto-detalhe" />
+        <h2>{{ politicoSelecionado()?.nome }}</h2>
+        <p><strong>Cargo:</strong> {{ politicoSelecionado()?.cargo | titlecase }}</p>
+        <p><strong>Estado:</strong> {{ politicoSelecionado()?.estado }}</p>
+
+        <select [(ngModel)]="filtroPeriodoValue" (change)="aplicarFiltroPeriodo()">
+          <option value="30dias">Últimos 30 dias</option>
+          <option value="personalizado">Personalizado</option>
+        </select>
+
+        <div *ngIf="filtroPeriodoValue === 'personalizado'" class="datas-personalizadas">
+          <input type="date" [(ngModel)]="dataInicio" />
+          <input type="date" [(ngModel)]="dataFim" />
+          <button (click)="aplicarFiltroPeriodo()">Aplicar</button>
+        </div>
+
+        <div class="remuneracao-card">
+          <h3>Remuneração - {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.mesAno || '—' }}</h3>
+          <ul>
+            <li><strong>Bruto:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.remuneracaoBasicaBruta || 'R$ —' }}</li>
+            <li><strong>Gratificação:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.gratificacaoNatalina || 'R$ —' }}</li>
+            <li><strong>Outros:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.outrasRemuneracoesEventuais || 'R$ —' }}</li>
+            <li><strong>Descontos:</strong> {{ dadosDetalhados()?.remuneracoesDTO?.[0]?.impostoRetidoNaFonte || 'R$ —' }}</li>
+          </ul>
+        </div>
+
+        <div class="grafico-despesas">
+          <h3>Distribuição de Despesas</h3>
+          <canvas #graficoDespesasCanvas id="graficoDespesas"></canvas>
+        </div>
+
+        <div class="resumo-extra">
+          <p><strong>Emendas parlamentares:</strong> {{ dadosDetalhados()?.emendasParlamentares || 'R$ —' }}</p>
+          <p><strong>Benefícios mensais:</strong> {{ dadosDetalhados()?.beneficiosMensais || 'R$ —' }}</p>
+        </div>
+
+        <div class="notificacoes-switches">
+          <h3>Receber notificações sobre:</h3>
+
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="notificarDespesas" />
+            <span class="slider"></span>
+            <span class="switch-label">Despesas gerais</span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="notificarCartao" />
+            <span class="slider"></span>
+            <span class="switch-label">Gastos com cartão</span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="notificarEmendas" />
+            <span class="slider"></span>
+            <span class="switch-label">Emendas parlamentares</span>
+          </label>
+        </div>
       </div>
-
-      <!-- Gráfico de despesas -->
-      <div class="grafico-despesas">
-        <h3>Distribuição de Despesas</h3>
-        <canvas #graficoDespesasCanvas id="graficoDespesas"></canvas>
-      </div>
-
-      <!-- Informações adicionais -->
-      <div class="resumo-extra">
-        <p><strong>Emendas parlamentares:</strong> {{ dadosDetalhados()?.emendasParlamentares || 'R$ —' }}</p>
-        <p><strong>Benefícios mensais:</strong> {{ dadosDetalhados()?.beneficiosMensais || 'R$ —' }}</p>
-      </div>
-
-      <!-- Notificações -->
-<div class="notificacoes-switches">
-  <h3>Receber notificações sobre:</h3>
-
-  <label class="switch">
-    <input type="checkbox" [(ngModel)]="notificarDespesas" />
-    <span class="slider"></span>
-    <span class="switch-label">Despesas gerais</span>
-  </label>
-
-  <label class="switch">
-    <input type="checkbox" [(ngModel)]="notificarCartao" />
-    <span class="slider"></span>
-    <span class="switch-label">Gastos com cartão</span>
-  </label>
-
-  <label class="switch">
-    <input type="checkbox" [(ngModel)]="notificarEmendas" />
-    <span class="slider"></span>
-    <span class="switch-label">Emendas parlamentares</span>
-  </label>
-</div>
-
     </div>
+
   </div>
 </div>
-

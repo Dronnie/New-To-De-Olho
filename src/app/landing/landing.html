@@ -53,7 +53,7 @@
     <div class="info-text">
       <h2>Por que acompanhar a política importa?</h2>
       <p>Tomar decisões informadas fortalece a democracia. Com o To De Olho, você acompanha ações e gastos dos representantes públicos com facilidade.</p>
-      <button class="btn primary">Saiba Mais</button>
+      <a class="btn primary" href="/sobre">Saiba Mais</a>
     </div>
     <div class="info-image">
       <iframe src="https://lottie.host/embed/3ad1f2c9-a261-420a-8b3f-3ce54e8674cc/UAEBuEePE3.lottie" style="width: 500px; height: 500px; border: none; margin-left: 100px;"></iframe>
@@ -152,6 +152,8 @@
   <!--  -->
   <section class="testimonials">
     <div class="container">
+      <iframe src="https://lottie.host/embed/49346ef8-91f5-498e-804c-2eaffb417d65/dxDvZT7gmY.lottie" 
+      style="border: none; height: 500px; margin-left: 40%; margin-top: -150px; margin-bottom: -110px;"></iframe>
       <h3 class="section-title">O que é transparência?</h3>
       <div class="testimonial-card">
         <p class="quote">"A transparência, como usada na ciência, na engenharia, nos negócios, nas humanidades e em outros contextos sociais, está operando de tal maneira que é fácil para os outros verem quais ações são executadas. Transparência implica abertura, comunicação e responsabilidade."</p>
@@ -241,23 +243,31 @@
 </button>
 
 <!-- Modal de chat -->
+<!-- Botão flutuante de chat -->
+<button class="chat-button" (click)="toggleChat()">
+  <!-- Seu SVG ou emoji aqui -->
+  💬
+</button>
+
+<!-- Modal de chat -->
 <div class="chat-modal" *ngIf="abrirChat">
   <div class="chat-header">
     <span>Chat de Suporte</span>
     <button (click)="abrirChat = false" class="fechar-chat">✖</button>
   </div>
 
-  <div class="chat-body" #chatBody>
-    <div class="chat-mensagem bot">Olá! Como posso te ajudar hoje?</div>
-    <div class="chat-mensagem user">O que é o To De Olho?</div>
-    <div class="chat-mensagem bot">É uma plataforma para acompanhar a atuação de políticos brasileiros.</div>
-    <div class="chat-mensagem user">Preciso me cadastrar para usar?</div>
-    <div class="chat-mensagem bot">Sim! O cadastro permite favoritar políticos e receber atualizações.</div>
-
-    <div *ngFor="let msg of mensagensExtras" class="chat-mensagem" [ngClass]="msg.tipo">
-      {{ msg.texto }}
-    </div>
+<div class="chat-body" #chatBody>
+  <div 
+    *ngFor="let msg of mensagensExibidas" 
+    class="chat-mensagem" 
+    [ngClass]="msg.tipo"
+    (click)="clicarMensagem(msg)"
+    style="cursor: pointer;"
+  >
+    {{ msg.texto }}
   </div>
+</div>
+
 
   <!-- Opções interativas -->
   <div class="chat-options" *ngIf="mostrarOpcoes">
@@ -269,9 +279,11 @@
 
 
 
+
 <footer>
   <div class="container">
     <p>&copy; 2025 To De Olho. Todos os direitos reservados.</p>
+    <a href="https://devmariano.carrd.co">Desenvolvido por Wariano</a>
     <div class="footer-links">
       <a href="#">Termos</a>
       <a href="#">Privacidade</a>

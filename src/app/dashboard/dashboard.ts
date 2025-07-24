@@ -63,6 +63,8 @@ export class Dashboard implements OnInit, AfterViewInit {
   notificarDespesas = false;
   notificarCartao = false;
   notificarEmendas = false;
+  carregando = true;
+
 
   notificacoesNaoLidas = signal<number>(3); // Pode ser dinâmico no futuro
   modalNotificacoesAberto = signal<boolean>(false);
@@ -89,42 +91,48 @@ export class Dashboard implements OnInit, AfterViewInit {
     this.modalNotificacoesAberto.set(false);
   }
 
-  carregarPoliticos(): void {
-    this.politicosService.listarDeputadosFederais().subscribe({
-      next: (dadosDeputados: any[]) => {
-        const deputadosAdaptados: Politico[] = dadosDeputados.map(d => ({
-          id: d.id,
-          nome: d.nome,
-          cargo: 'deputado',
-          tipoDeputado: d.tipoDeputado === 'federal' ? 'federal' : 'estadual',
-          estado: d.siglaUf,
-          foto: d.urlFoto
-        }));
+carregarPoliticos(): void {
+  this.carregando = true; // começa carregando
 
-        this.politicosService.listarSenadores().subscribe({
-          next: (res: any) => {
-            const senadoresRaw = res.ListaParlamentarEmExercicio.Parlamentares.Parlamentar;
-            const senadoresAdaptados: Politico[] = senadoresRaw.map((s: any) => ({
-              id: s.IdentificacaoParlamentar.CodigoParlamentar,
-              nome: s.IdentificacaoParlamentar.NomeParlamentar,
-              cargo: 'senador',
-              estado: s.IdentificacaoParlamentar.UfParlamentar,
-              foto: s.IdentificacaoParlamentar.UrlFotoParlamentar
-            }));
+  this.politicosService.listarDeputadosFederais().subscribe({
+    next: (dadosDeputados: any[]) => {
+      const deputadosAdaptados: Politico[] = dadosDeputados.map(d => ({
+        id: d.id,
+        nome: d.nome,
+        cargo: 'deputado',
+        tipoDeputado: d.tipoDeputado === 'federal' ? 'federal' : 'estadual',
+        estado: d.siglaUf,
+        foto: d.urlFoto
+      }));
 
-            this.politicos.set([...deputadosAdaptados, ...senadoresAdaptados]);
-          },
-          error: err => {
-            console.error('Erro ao carregar senadores:', err);
-            this.politicos.set(deputadosAdaptados); // fallback
-          }
-        });
-      },
-      error: err => {
-        console.error('Erro ao carregar deputados:', err);
-      }
-    });
-  }
+      this.politicosService.listarSenadores().subscribe({
+        next: (res: any) => {
+          const senadoresRaw = res.ListaParlamentarEmExercicio.Parlamentares.Parlamentar;
+          const senadoresAdaptados: Politico[] = senadoresRaw.map((s: any) => ({
+            id: s.IdentificacaoParlamentar.CodigoParlamentar,
+            nome: s.IdentificacaoParlamentar.NomeParlamentar,
+            cargo: 'senador',
+            estado: s.IdentificacaoParlamentar.UfParlamentar,
+            foto: s.IdentificacaoParlamentar.UrlFotoParlamentar
+          }));
+
+          this.politicos.set([...deputadosAdaptados, ...senadoresAdaptados]);
+          this.carregando = false; // fim do carregamento
+        },
+        error: err => {
+          console.error('Erro ao carregar senadores:', err);
+          this.politicos.set(deputadosAdaptados); // fallback parcial
+          this.carregando = false;
+        }
+      });
+    },
+    error: err => {
+      console.error('Erro ao carregar deputados:', err);
+      this.carregando = false; // mesmo com falha, desativa loading
+    }
+  });
+}
+
 
   carregarProjetos(): void {
     this.politicosService.listarProjetos().subscribe({

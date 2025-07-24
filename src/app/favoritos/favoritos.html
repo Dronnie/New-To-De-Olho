@@ -1,0 +1,38 @@
+<header>
+  <div class="container header-content">
+    <a href="#"><img src="https://i.ibb.co/LDwrBFk4/logo.png" style="height: 50px;" alt="logo" /></a>
+
+    <div class="auth-buttons">
+      <a class="btn secondary" href="/dashboard">Dashboard</a>
+      <a class="btn secondary" href="/perfil">Perfil</a>
+
+      <div class="notificacao-container" style="position: relative; display: inline-block;">
+        <button class="btn secondary btn-notificacao">
+          <!-- seu SVG aqui -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div class="favoritos-container">
+  <h2>Políticos Favoritos</h2>
+
+  <div *ngIf="politicosFavoritos.length === 0">
+    Nenhum político favoritado ainda.
+  </div>
+
+  <div *ngFor="let politico of politicosFavoritos" class="politico-card fade-in">
+    <img [src]="politico.foto" alt="Foto de {{ politico.nome }}" />
+    <div class="politico-info">
+      <h3>{{ politico.nome }}</h3>
+      <p>{{ politico.cargo | titlecase }} - {{ politico.estado }}</p>
+      <button class="btn-remove" (click)="removerFavorito(politico.nome)">Desfavoritar</button>
+    </div>
+  </div>
+</div>

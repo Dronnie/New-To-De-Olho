@@ -22,7 +22,7 @@ export interface DespesaCartao {
   providedIn: 'root'
 })
 export class PoliticosService {
-  private apiUrl = '/api/deputados';  // Seu backend proxy para API dos deputados
+  private apiUrl = '/api/deputados';
 
   constructor(private http: HttpClient) {}
 

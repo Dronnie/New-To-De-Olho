@@ -208,6 +208,20 @@ header {
   outline: none;
 }
 
+/* Loader */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+
 /* Títulos por estado e cargo */
 .estado-titulo {
   font-size: 1.9rem;
