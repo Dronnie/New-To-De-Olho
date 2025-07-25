@@ -53,6 +53,8 @@ export class Dashboard implements OnInit, AfterViewInit {
   politicos = signal<Politico[]>([]);
   politicoSelecionado = signal<Politico | null>(null);
   dadosDetalhados = signal<any | null>(null);
+  modalFiltroAberto = signal<boolean>(false);
+
 
   projetos = signal<Projeto[]>([]);
 
@@ -90,6 +92,22 @@ export class Dashboard implements OnInit, AfterViewInit {
   fecharModalNotificacoes() {
     this.modalNotificacoesAberto.set(false);
   }
+
+  abrirModalFiltro() {
+  this.modalFiltroAberto.set(true);
+}
+
+fecharModalFiltro() {
+  this.modalFiltroAberto.set(false);
+}
+
+aplicarFiltroMock() {
+  // embaralha a ordem dos políticos como mock
+  const embaralhados = this.politicos().sort(() => Math.random() - 0.5);
+  this.politicos.set([...embaralhados]);
+  this.modalFiltroAberto.set(false);
+}
+
 
 carregarPoliticos(): void {
   this.carregando = true; // começa carregando

@@ -1,6 +1,6 @@
 <header>
   <div class="container header-content">
-    <a href="#"><img src="https://i.ibb.co/LDwrBFk4/logo.png" style="height: 50px;" alt="logo" /></a>
+    <a href="#"><img src="https://i.ibb.co/jPWs3vy6/Frame-1.png" style="height: 50px;" alt="logo" /></a>
 
     <div class="auth-buttons">
       <a class="btn secondary" href="/favoritos">Favoritos</a>
@@ -47,6 +47,23 @@
       (input)="nomeBusca.set($any($event.target).value)"
       style="flex-grow: 1; padding: 0.5rem; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem;"
     />
+
+    <button class="btn-nfiltro" (click)="abrirModalFiltro()" style="display: flex; align-items: center; gap: 0.4rem;">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="4" y1="21" x2="4" y2="14"></line>
+    <line x1="4" y1="10" x2="4" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="12"></line>
+    <line x1="12" y1="8" x2="12" y2="3"></line>
+    <line x1="20" y1="21" x2="20" y2="16"></line>
+    <line x1="20" y1="12" x2="20" y2="3"></line>
+    <line x1="1" y1="14" x2="7" y2="14"></line>
+    <line x1="9" y1="8" x2="15" y2="8"></line>
+    <line x1="17" y1="16" x2="23" y2="16"></line>
+  </svg>
+  Filtros
+</button>
+
 
     <select (change)="estadoSelecionado.set($any($event.target).value)">
       <option value="">Todos os Estados</option>
@@ -185,3 +202,19 @@
 
   </div>
 </div>
+
+<div class="overlay" *ngIf="modalFiltroAberto()">
+  <div class="modal-filtro" (click)="$event.stopPropagation()">
+    <button class="fechar" (click)="fecharModalFiltro()">✖</button>
+    <h2>Filtrar por</h2>
+    <ul>
+      <li><button class="btn secondary" (click)="aplicarFiltroMock()">Quem gasta mais com correios</button></li>
+      <li><button class="btn secondary" (click)="aplicarFiltroMock()">Quem gasta mais com cartão</button></li>
+      <li><button class="btn secondary" (click)="aplicarFiltroMock()">Quem gasta mais com moradia</button></li>
+      <li><button class="btn secondary" (click)="aplicarFiltroMock()">Quem custa mais ao estado</button></li>
+      <li><button class="btn secondary" (click)="aplicarFiltroMock()">Quem custa menos ao estado</button></li>
+    </ul>
+  </div>
+</div>
+
+

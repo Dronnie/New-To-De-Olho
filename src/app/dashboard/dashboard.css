@@ -175,6 +175,95 @@ header {
   outline: none;
 }
 
+.btn-filtro {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background-color: #e6f0ff;
+  border: none;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #003366;
+  font-size: 0.95rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  user-select: none;
+}
+
+.btn-filtro:hover,
+.btn-filtro:focus {
+  background-color: #1e90ff;
+  color: white;
+  outline: none;
+}
+
+.modal-filtro {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: left;
+  max-height: 90vh;
+  overflow-y: auto;
+  user-select: none;
+  animation: fadeInDown 0.25s ease forwards;
+}
+
+.modal-filtro h2 {
+  font-size: 1.5rem;
+  color: #003366;
+  margin-bottom: 1.2rem;
+}
+
+.modal-filtro ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-filtro li {
+  margin-bottom: 0.75rem;
+}
+
+.modal-filtro .btn.secondary {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #e6f0ff;
+  color: #003366;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.modal-filtro .btn.secondary:hover,
+.modal-filtro .btn.secondary:focus {
+  background-color: #1e90ff;
+  color: #fff;
+  outline: none;
+}
+
+.btn-nfiltro {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #e6f0ff;
+  color: #003366;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
 /* Container principal */
 .dashboard-container {
   max-width: 1200px;
@@ -438,6 +527,8 @@ button:focus-visible {
 .projeto-item:last-child {
   border-bottom: none;
 }
+
+
 
 
 /* Responsividade header e container */
